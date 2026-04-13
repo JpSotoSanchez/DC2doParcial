@@ -94,7 +94,7 @@ Al terminar cada ronda (victoria o derrota) puedes pedir una nueva palabra sin d
 Cliente                        Servidor
   │                               │
   │── "0" (login) ──────────────► │
-  │── "usuario;contraseña" ──────► │
+  │── "usuario;contraseña" ─────► │
   │◄── longitud de palabra ───────│  (o "-1" si falla)
   │                               │
   │  [bucle de juego]             │
