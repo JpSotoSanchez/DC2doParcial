@@ -31,7 +31,6 @@ void limpiarPantalla() {
     fflush(stdout);
 }
 
-// Cambian el color de lo que se imprime
 void colorVerde() { printf("\033[32m"); }
 void colorRojo() { printf("\033[31m"); }
 void colorAmarillo() { printf("\033[33m"); }
@@ -54,22 +53,7 @@ void centrar(const char* texto, int ancho) {
 
 /* ─── Arte ASCII del ahorcado ────────────────────────────────────────────── */
 
-/*
- * 6 etapas (0 = ninguna parte, 5 = completo).
- * Usamos una representación compacta: cada etapa agrega partes.
- * El dibujo se escala horizontalmente según el ancho del terminal.
- */
 void dibujarAhorcado(int errores, int ancho) {
-    /* Partes:
-     *  errores 0 → nada
-     *  errores 1 → cabeza
-     *  errores 2 → cuerpo
-     *  errores 3 → brazo izq
-     *  errores 4 → brazo der
-     *  errores 5 → pierna izq + der
-     */
-
-     /* Calcular padding lateral para centrar el dibujo (ancho fijo ~13 chars) */
     int dibAncho = 13;
     int pad = (ancho - dibAncho) / 2;
     if (pad < 0) pad = 0;
@@ -78,11 +62,9 @@ void dibujarAhorcado(int errores, int ancho) {
 
     colorGris();
 
-    /* Poste */
     printf("%s  +---+\n", P);
     printf("%s  |   |\n", P);
 
-    /* Cabeza */
     if (errores >= 1) {
         colorRojo();
         printf("%s  |  (o_o)\n", P);
@@ -92,7 +74,6 @@ void dibujarAhorcado(int errores, int ancho) {
         printf("%s  |\n", P);
     }
 
-    /* Cuerpo + brazos */
     if (errores >= 4) {
         colorRojo();
         printf("%s  | \\(|)/\n", P);
@@ -112,7 +93,6 @@ void dibujarAhorcado(int errores, int ancho) {
         printf("%s  |\n", P);
     }
 
-    /* Piernas */
     if (errores >= 5) {
         colorRojo();
         printf("%s  | / \\\n", P);
@@ -122,7 +102,6 @@ void dibujarAhorcado(int errores, int ancho) {
         printf("%s  |\n", P);
     }
 
-    /* Base */
     printf("%s  |\n", P);
     printf("%s__|__\n", P);
     colorReset();
@@ -154,15 +133,12 @@ void mostrarTablero(
 
     imprimirLinea('-', ancho);
 
-    /* Dibujo del ahorcado */
     dibujarAhorcado(intentos, ancho);
     putchar('\n');
 
     imprimirLinea('-', ancho);
 
-    /* Palabra con huecos */
     {
-        /* Construir string de la palabra para centrarla */
         char linea[512] = { 0 };
         for (int i = 0; i < l; i++) {
             if (aciertos[i] == '1') {
@@ -174,7 +150,6 @@ void mostrarTablero(
                 strncat(linea, "_ ", sizeof(linea) - strlen(linea) - 1);
             }
         }
-        /* Quitar espacio final */
         int ll = strlen(linea);
         if (ll > 0 && linea[ll - 1] == ' ') linea[ll - 1] = '\0';
 
@@ -185,7 +160,6 @@ void mostrarTablero(
 
     putchar('\n');
 
-    /* Letras correctas */
     {
         bool hayAciertos = false;
         for (int i = 0; i < l; i++) if (aciertos[i] == '1') { hayAciertos = true; break; }
@@ -194,7 +168,6 @@ void mostrarTablero(
         printf("%*s", pad, "");
         colorVerde(); negrita(); printf("Correctas : "); colorReset();
         if (hayAciertos) {
-            /* De-duplicar para no repetir la misma letra varias veces */
             bool vistas[256] = { false };
             for (int i = 0; i < l; i++) {
                 if (aciertos[i] == '1') {
@@ -214,7 +187,6 @@ void mostrarTablero(
         putchar('\n');
     }
 
-    /* Letras incorrectas */
     {
         int pad = (ancho - 40) / 2; if (pad < 0) pad = 0;
         printf("%*s", pad, "");
@@ -232,7 +204,6 @@ void mostrarTablero(
         putchar('\n');
     }
 
-    /* Vidas restantes */
     {
         int pad = (ancho - 40) / 2; if (pad < 0) pad = 0;
         printf("%*s", pad, "");
@@ -243,6 +214,98 @@ void mostrarTablero(
     }
 
     imprimirLinea('-', ancho);
+}
+
+/* ─── Pantalla: Acerca de / Instrucciones ───────────────────────────────── */
+
+void mostrarAcercaDe(int ancho) {
+    limpiarPantalla();
+
+    negrita(); colorCian();
+    centrar("=== ACERCA DE ===", ancho);
+    colorReset();
+    imprimirLinea('=', ancho);
+
+    int pad = (ancho - 50) / 2;
+    if (pad < 0) pad = 0;
+
+    /* ── 1. Integrantes del equipo ── */
+    putchar('\n');
+    negrita(); colorAmarillo();
+    centrar("1. Integrantes del equipo", ancho);
+    colorReset();
+    putchar('\n');
+
+    printf("%*s  - Jaime Rincon Burboa\n", pad, "");
+    printf("%*s  - Alvaro Samuel Velazquez Ramirez\n", pad, "");
+    printf("%*s  - Jose Pablo Soto Sanchez\n", pad, "");
+    putchar('\n');
+
+    negrita();
+    printf("%*s  Materia  : ", pad, ""); colorReset();
+    printf("Computo Distribuido\n");
+
+    negrita();
+    printf("%*s  Profesor : ", pad, ""); colorReset();
+    printf("Juan Carlos Lopez Pimentel\n");
+    putchar('\n');
+
+    imprimirLinea('-', ancho);
+
+    /* ── 2. Instrucciones ── */
+    putchar('\n');
+    negrita(); colorAmarillo();
+    centrar("2. Instrucciones", ancho);
+    colorReset();
+    putchar('\n');
+
+    /* Como se juega */
+    negrita(); printf("%*s  Como se juega:\n", pad, ""); colorReset();
+    printf("%*s  El servidor elige una palabra secreta al azar.\n", pad, "");
+    printf("%*s  El jugador debe adivinarla de dos formas:\n", pad, "");
+    printf("%*s    a) Escribiendo una sola letra por turno.\n", pad, "");
+    printf("%*s    b) Escribiendo la palabra completa de una sola vez.\n", pad, "");
+    putchar('\n');
+
+    /* Como se gana */
+    negrita(); colorVerde();
+    printf("%*s  Como se gana:\n", pad, "");
+    colorReset();
+    printf("%*s  - Descubriendo todas las letras de la palabra\n", pad, "");
+    printf("%*s    antes de cometer 5 errores.\n", pad, "");
+    printf("%*s  - O escribiendo la palabra completa correctamente\n", pad, "");
+    printf("%*s    en cualquier turno.\n", pad, "");
+    putchar('\n');
+
+    /* Como se pierde */
+    negrita(); colorRojo();
+    printf("%*s  Como se pierde:\n", pad, "");
+    colorReset();
+    printf("%*s  - Acumulando 5 fallos (letras o palabras incorrectas).\n", pad, "");
+    printf("%*s    Cada fallo agrega una parte al ahorcado.\n", pad, "");
+    putchar('\n');
+
+    /* Reglas adicionales */
+    negrita();
+    printf("%*s  Reglas adicionales:\n", pad, "");
+    colorReset();
+    printf("%*s  - Las letras no distinguen mayusculas/minusculas.\n", pad, "");
+    printf("%*s  - Si repites una letra ya intentada, no se penaliza\n", pad, "");
+    printf("%*s    pero se te avisa para que elijas otra.\n", pad, "");
+    printf("%*s  - Al terminar cada partida puedes jugar de nuevo\n", pad, "");
+    printf("%*s    con una palabra diferente.\n", pad, "");
+    putchar('\n');
+
+    imprimirLinea('=', ancho);
+    putchar('\n');
+
+    colorGris();
+    centrar("Presiona Enter para volver al menu...", ancho);
+    colorReset();
+
+    /* Consumir posible '\n' residual y esperar Enter */
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
 }
 
 /* ─── Main ───────────────────────────────────────────────────────────────── */
@@ -260,6 +323,28 @@ int main(int argc, char* argv[]) {
     }
     host = argv[1];
 
+    /* ── Menú inicial (antes de conectar al servidor) ── */
+    int ancho = anchoTerminal();
+    char buffer[DIRSIZE];
+
+    limpiarPantalla();
+    negrita(); colorCian();
+    centrar("=== AHORCADO ===", ancho);
+    colorReset();
+    imprimirLinea('-', ancho);
+    printf("  1. Iniciar sesion\n");
+    printf("  2. Crear usuario\n");
+    printf("  3. Acerca de / Instrucciones\n");
+    printf("  Opcion: ");
+    leerInput(buffer, sizeof(buffer));
+
+    /* ── Caso 3: Acerca de (no necesita conexion) ── */
+    if (strcmp(buffer, "3") == 0) {
+        mostrarAcercaDe(ancho);
+        return 0;
+    }
+
+    /* ── Casos 1 y 2: requieren conexion al servidor ── */
     if ((hp = gethostbyname(host)) == 0) { perror("gethostbyname"); exit(1); }
 
     pin.sin_family = AF_INET;
@@ -269,25 +354,23 @@ int main(int argc, char* argv[]) {
     if ((sd = socket(AF_INET, SOCK_STREAM, 0)) == -1) { perror("socket");  exit(1); }
     if (connect(sd, (struct sockaddr*)&pin, sizeof(pin)) == -1) { perror("connect"); exit(1); }
 
-    int ancho = anchoTerminal();
-    char buffer[DIRSIZE];
-
-    /* ── Login / Registro ── */
-    limpiarPantalla();
-    negrita(); colorCian();
-    centrar("=== AHORCADO ===", ancho);
-    colorReset();
-    imprimirLinea('-', ancho);
-    printf("  1. Iniciar sesion\n");
-    printf("  2. Crear usuario\n");
-    printf("  Opcion: ");
-    leerInput(buffer, sizeof(buffer));
-
     char opcion[2];
     strcpy(opcion, (strcmp(buffer, "1") == 0) ? "0" : "1");
 
     strcpy(dir, opcion);
     if (send(sd, dir, strlen(dir) + 1, 0) == -1) { perror("send"); exit(1); }
+
+    /* Volver a mostrar encabezado para pedir credenciales */
+    limpiarPantalla();
+    negrita(); colorCian();
+    centrar("=== AHORCADO ===", ancho);
+    colorReset();
+    imprimirLinea('-', ancho);
+    if (strcmp(opcion, "0") == 0)
+        centrar("Iniciar sesion", ancho);
+    else
+        centrar("Crear usuario", ancho);
+    putchar('\n');
 
     printf("  Usuario    : ");
     char usuario[50];
@@ -300,15 +383,18 @@ int main(int argc, char* argv[]) {
     snprintf(dir, sizeof(dir), "%s;%s", usuario, contrasena);
     if (send(sd, dir, strlen(dir) + 1, 0) == -1) { perror("send"); exit(1); }
 
-    /* Registro: solo mensaje de confirmacion */
+    /* ── Registro: solo mensaje de confirmacion ── */
     if (strcmp(opcion, "1") == 0) {
         if (recv(sd, dir, sizeof(dir), 0) == -1) { perror("recv"); exit(1); }
-        printf("\n  %s\n", dir);
+        putchar('\n');
+        colorVerde();
+        printf("  %s\n", dir);
+        colorReset();
         close(sd);
         return 0;
     }
 
-    /* Login: recibir longitud de palabra o error */
+    /* ── Login: recibir longitud de palabra o error ── */
     if (recv(sd, dir, sizeof(dir), 0) == -1) { perror("recv"); exit(1); }
 
     if (strcmp(dir, "-1") == 0) {
@@ -322,7 +408,7 @@ int main(int argc, char* argv[]) {
     /* ── Bucle de juego ── */
     bool jugando = true;
     while (jugando) {
-        ancho = anchoTerminal(); /* re-leer por si cambio el terminal */
+        ancho = anchoTerminal();
 
         int l = atoi(dir);
         int intentos = 0;
@@ -335,19 +421,17 @@ int main(int argc, char* argv[]) {
         memset(palabra_mask, '?', l);
         palabra_mask[l] = '\0';
 
-        /* Letras incorrectas ya intentadas (max 26) */
         char letrasIncorrectas[27] = { 0 };
         int  numIncorrectas = 0;
 
-        /* Letras ya intentadas para detectar repeticion */
         bool intentadas[256] = { false };
 
-        mostrarTablero(aciertos, palabra_mask, l, intentos, letrasIncorrectas, numIncorrectas, ancho);
+        mostrarTablero(aciertos, palabra_mask, l, intentos,
+            letrasIncorrectas, numIncorrectas, ancho);
 
         char mensajeExtra[128] = { 0 };
 
         while (true) {
-            /* Mostrar mensaje extra de la ronda anterior si hay */
             if (strlen(mensajeExtra) > 0) {
                 int pad = (ancho - 50) / 2; if (pad < 0) pad = 0;
                 printf("%*s%s\n\n", pad, "", mensajeExtra);
@@ -357,7 +441,6 @@ int main(int argc, char* argv[]) {
             printf("  Adivina letra o palabra completa: ");
             leerInput(buffer, sizeof(buffer));
 
-            /* Normalizar a minusculas para comparacion interna */
             char bufferLower[DIRSIZE];
             strncpy(bufferLower, buffer, sizeof(bufferLower));
             for (int i = 0; bufferLower[i]; i++)
@@ -366,9 +449,9 @@ int main(int argc, char* argv[]) {
             bool esLetraSola = (strlen(bufferLower) == 1);
             char letraIntentada = esLetraSola ? bufferLower[0] : '\0';
 
-            /* Detectar repeticion (solo aplica a letras solas) */
             if (esLetraSola && intentadas[(unsigned char)letraIntentada]) {
-                mostrarTablero(aciertos, palabra_mask, l, intentos, letrasIncorrectas, numIncorrectas, ancho);
+                mostrarTablero(aciertos, palabra_mask, l, intentos,
+                    letrasIncorrectas, numIncorrectas, ancho);
                 colorAmarillo();
                 int pad = (ancho - 40) / 2; if (pad < 0) pad = 0;
                 printf("%*s  >> Letra '%c' ya intentada antes, intenta otra.\n\n",
@@ -377,11 +460,9 @@ int main(int argc, char* argv[]) {
                 continue;
             }
 
-            /* Marcar letra como intentada */
             if (esLetraSola)
                 intentadas[(unsigned char)letraIntentada] = true;
 
-            /* Enviar al servidor */
             strcpy(dir, bufferLower);
             if (send(sd, dir, strlen(dir) + 1, 0) == -1) { perror("send"); exit(1); }
 
@@ -389,7 +470,6 @@ int main(int argc, char* argv[]) {
             for (int i = 0; i < l; i++)
                 if (aciertos[i] == '1') prevAciertos++;
 
-            /* Recibir respuesta del servidor: string de '0'/'1' de longitud l */
             if (recv(sd, dir, sizeof(dir), 0) == -1) { perror("recv"); exit(1); }
 
             int currAciertos = 0;
@@ -397,18 +477,13 @@ int main(int argc, char* argv[]) {
                 if (dir[i] == '1') {
                     currAciertos++;
                     if (aciertos[i] == '0') {
-                        /* Si fue palabra completa, el servidor ya nos dio todas las posiciones.
-                         * Si fue letra, asignamos esa letra. */
                         if (esLetraSola)
                             palabra_mask[i] = letraIntentada;
-                        /* Si fue palabra completa, la mascara la llenamos con la
-                         * palabra enviada por el usuario caracter a caracter. */
                     }
                     aciertos[i] = '1';
                 }
             }
 
-            /* Si fue palabra completa y acerto, llenar la mascara con la palabra */
             if (!esLetraSola && currAciertos == l) {
                 for (int i = 0; i < l && bufferLower[i] != '\0'; i++)
                     palabra_mask[i] = bufferLower[i];
@@ -418,11 +493,11 @@ int main(int argc, char* argv[]) {
 
             if (currAciertos > prevAciertos) {
                 snprintf(mensajeExtra, sizeof(mensajeExtra),
-                    "\033[32m  >> Correcto! +%d letra(s)\033[0m", currAciertos - prevAciertos);
+                    "\033[32m  >> Correcto! +%d letra(s)\033[0m",
+                    currAciertos - prevAciertos);
             }
             else {
                 intentos++;
-                /* Agregar a letras incorrectas (solo si fue letra sola y no ya registrada) */
                 if (esLetraSola) {
                     bool yaEnIncorrectas = false;
                     for (int i = 0; i < numIncorrectas; i++)
@@ -437,7 +512,8 @@ int main(int argc, char* argv[]) {
                     "\033[31m  >> Fallo! (%d/5)\033[0m", intentos);
             }
 
-            mostrarTablero(aciertos, palabra_mask, l, intentos, letrasIncorrectas, numIncorrectas, ancho);
+            mostrarTablero(aciertos, palabra_mask, l, intentos,
+                letrasIncorrectas, numIncorrectas, ancho);
 
             if (gano) {
                 negrita(); colorVerde();
