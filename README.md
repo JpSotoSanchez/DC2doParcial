@@ -1,4 +1,5 @@
-# 🪢 Ahorcado TCP
+
+# Ahorcado TCP
 
 Juego del Ahorcado multijugador implementado en C sobre una arquitectura cliente-servidor TCP. Varios jugadores pueden conectarse simultáneamente; cada uno corre su propia sesión de forma independiente.
 
@@ -12,6 +13,12 @@ Juego del Ahorcado multijugador implementado en C sobre una arquitectura cliente
 - `gcc` o `cc`
 
 ---
+
+## Integrantes
+
+Álvaro Samuel Velázquez Ramírez 0262147
+José Pablo Soto Sánchez 0262205
+Jaime Rincón Burboa 0260590
 
 ## Compilación
 
