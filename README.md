@@ -14,6 +14,12 @@ Juego del Ahorcado multijugador implementado en C sobre una arquitectura cliente
 
 ---
 
+## Integrantes
+
+Álvaro Samuel Velázquez Ramírez 0262147
+José Pablo Soto Sánchez 0262205
+Jaime Rincón Burboa 0260590
+
 ## Compilación
 
 ```bash
