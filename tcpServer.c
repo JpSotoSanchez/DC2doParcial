@@ -15,7 +15,7 @@
 #include <unistd.h>
 
 #define  DIRSIZE    2048
-#define  PUERTO     1234
+#define  PUERTO     5006
 #define  MAX_WORD   100   // longitud maxima de palabra
 
 int                  sd, sd_actual;
@@ -95,7 +95,9 @@ bool isUser(char dir[]) {
     while (fgets(buffer, sizeof(buffer), pointer) != NULL) {
         buffer[strcspn(buffer, "\n")] = '\0';
 
-        bool bandera = true;
+        // Skip blank lines
+        if (strlen(buffer) == 0) continue;
+
         char* saveptr1, * saveptr2;
         char dirCopy[256];
         strcpy(dirCopy, dir);
@@ -103,8 +105,12 @@ bool isUser(char dir[]) {
         char* token = strtok_r(dirCopy, ";", &saveptr1);
         char* filetoken = strtok_r(buffer, ";", &saveptr2);
 
-        while (token != NULL && filetoken != NULL) {
-            if (strcmp(token, filetoken) != 0) {
+        bool bandera = true;
+
+        // Both sides must have the same number of fields, all matching
+        while (token != NULL || filetoken != NULL) {
+            if (token == NULL || filetoken == NULL ||
+                strcmp(token, filetoken) != 0) {
                 bandera = false;
                 break;
             }
@@ -223,13 +229,8 @@ int main() {
         }
 
         // INICIO DE SESION
-        if (strcmp(dir, "0") == 0) {
-            if (recv(sd_actual, dir, sizeof(dir), 0) == -1) {
-                perror("recv");
-                exit(1);
-            }
-
-            bool status = isUser(dir);
+        if (dir[0] == '0') {
+            bool status = isUser(dir+1);
             if (status) {
                 char* roundWord = randomWord();
                 char  len[4];
@@ -314,12 +315,9 @@ int main() {
         }
 
         // CREAR USUARIO
-        else if (strcmp(dir, "1") == 0) {
-            if (recv(sd_actual, dir, sizeof(dir), 0) == -1) {
-                perror("recv");
-                exit(1);
-            }
-            int status = addUser(dir);
+        else if (dir[0] == '1') {
+
+            int status = addUser(dir+1);
             if (status == 0) strcpy(dir, "Usuario Agregado");
             else             strcpy(dir, "Usuario ya Existe");
 
