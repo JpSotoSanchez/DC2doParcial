@@ -5,6 +5,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include <stdbool.h>
 #include <string.h>
 #include <sys/types.h>
@@ -217,6 +218,7 @@ int main() {
         }
         printf("Connection\n");
         child = fork();
+        srand(time(NULL));
         if ((int)child == 0) break;
         else close(sd_actual);
     }
