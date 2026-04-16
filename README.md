@@ -1,16 +1,7 @@
 
 # Ahorcado TCP
 
-Juego del Ahorcado multijugador implementado en C sobre una arquitectura cliente-servidor TCP. Varios jugadores pueden conectarse simultáneamente; cada uno corre su propia sesión de forma independiente.
-
-> **Materia / Institución / Integrantes:** _[completar]_
-
----
-
-## Requisitos
-
-- Sistema POSIX (Linux, macOS, WSL)
-- `gcc` o `cc`
+Juego del Ahorcado implementado en C sobre una arquitectura cliente-servidor TCP. Varios jugadores pueden conectarse simultáneamente; cada uno corre su propia sesión de forma independiente. Existe una autentificación con usuario y contraseña que se guarda en el servidor, primero se crea una cuenta y luego se puedo iniciar sesión con ella.
 
 ---
 
@@ -19,6 +10,14 @@ Juego del Ahorcado multijugador implementado en C sobre una arquitectura cliente
 - Álvaro Samuel Velázquez Ramírez 0262147
 - José Pablo Soto Sánchez 0262205
 - Jaime Rincón Burboa 0260590
+
+## Lenguajes de programación
+
+- C para el servidor
+El uso de C en el servidor permite obtener un alto rendimiento y un control preciso sobre los recursos del sistema, lo cual es fundamental en una arquitectura cliente-servidor con múltiples conexiones simultáneas. Al trabajar directamente con sockets y memoria, se reduce el consumo de CPU y RAM, y se pueden implementar mecanismos eficientes de concurrencia, lo que hace al servidor más escalable y rápido. Aunque requiere mayor cuidado en la programación, ofrece una base robusta para manejar múltiples sesiones de juego de forma independiente.
+
+- Python para el cliente
+El cliente en Python facilita el desarrollo gracias a su sintaxis clara y sus bibliotecas de alto nivel, lo que permite implementar rápidamente la GUI del juego y la interacción con el usuario. No es necesario optimizar tanto el rendimiento como en el servidor, por lo que se prioriza la legibilidad y la portabilidad. 
 
 ## Compilación
 
