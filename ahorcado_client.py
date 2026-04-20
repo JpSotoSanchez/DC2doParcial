@@ -11,7 +11,7 @@ from tkinter import font as tkfont
 
 # ─── Configuracion de red ─────────────────────────────────────────────────── #
 
-PUERTO = 5006
+PUERTO = 5000
 DIRSIZE = 2048
 
 # ─── Paleta de colores ────────────────────────────────────────────────────── #

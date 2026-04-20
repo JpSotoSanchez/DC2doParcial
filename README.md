@@ -25,10 +25,6 @@ El cliente en Python facilita el desarrollo gracias a su sintaxis clara y sus bi
 # Servidor
 cc tcpServer.c -o tcpserver
 
-# Cliente
-cc tcpClient.c -o tcpclient
-```
-
 ---
 
 ## Ejecución
