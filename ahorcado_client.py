@@ -168,7 +168,7 @@ class App(tk.Tk):
         self.title("Ahorcado")
         self.configure(bg=BG)
         self.resizable(False, False)
-        self.geometry("1024x768")
+        self.geometry("800x600")
         self._frame = None
         self.mostrar(MenuPrincipal)
 
@@ -292,7 +292,7 @@ class PantallaLogin(tk.Frame):
                     l = int(resp)
                     self.after(0, lambda: self.master.mostrar(PantallaJuego, l=l))
         except Exception as ex:
-            self.after(0, lambda: self.error_var.set(f"Error: {ex}"))
+            self.after(0, lambda e=ex: self.error_var.set(f"Error: {e}"))
 
     def _msg_registro(self, msg):
         self.error_var.set("")

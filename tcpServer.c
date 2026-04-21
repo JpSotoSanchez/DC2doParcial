@@ -16,7 +16,7 @@
 #include <unistd.h>
 
 #define  DIRSIZE    2048
-#define  PUERTO     5006
+#define  PUERTO     5000
 #define  MAX_WORD   100   // longitud maxima de palabra
 
 int                  sd, sd_actual;
@@ -94,7 +94,7 @@ bool isUser(char dir[]) {
 
     char buffer[100];
     while (fgets(buffer, sizeof(buffer), pointer) != NULL) {
-        buffer[strcspn(buffer, "\n")] = '\0';
+        buffer[strcspn(buffer, "\r\n")] = '\0';
 
         // Skip blank lines
         if (strlen(buffer) == 0) continue;
