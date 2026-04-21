@@ -39,51 +39,51 @@ FONT_SANS = "Helvetica"
 
 FIGURAS = [
     # 0 errores
-    ("  +---+\n"
-     "  |   |\n"
+    ("  +----+\n"
+     "  |    |\n"
      "  |\n"
      "  |\n"
      "  |\n"
      "  |\n"
      "__|__"),
     # 1 error
-    ("  +---+\n"
-     "  |   |\n"
+    ("  +----+\n"
+     "  |    |\n"
      "  |  (o_o)\n"
      "  |\n"
      "  |\n"
      "  |\n"
      "__|__"),
     # 2 errores
-    ("  +---+\n"
-     "  |   |\n"
+    ("  +----+\n"
+     "  |    |\n"
      "  |  (o_o)\n"
-     "  |  (|\n"
+     "  |   (|\n"
      "  |\n"
      "  |\n"
      "__|__"),
     # 3 errores
-    ("  +---+\n"
-     "  |   |\n"
+    ("  +----+\n"
+     "  |    |\n"
      "  |  (o_o)\n"
-     r"  | \(|" + "\n"
+     r"  |  \(|" + "\n"
      "  |\n"
      "  |\n"
      "__|__"),
     # 4 errores
-    ("  +---+\n"
-     "  |   |\n"
+    ("  +----+\n"
+     "  |    |\n"
      "  |  (o_o)\n"
-     r"  | \(|)/" + "\n"
+     r"  |  \(|)/" + "\n"
      "  |\n"
      "  |\n"
      "__|__"),
     # 5 errores
-    ("  +---+\n"
-     "  |   |\n"
+    ("  +----+\n"
+     "  |    |\n"
      "  |  (o_o)\n"
-     r"  | \(|)/" + "\n"
-     "  | / \\\n"
+     r"  |  \(|)/" + "\n"
+     "  |   / \\\n"
      "  |\n"
      "__|__"),
 ]
@@ -168,7 +168,7 @@ class App(tk.Tk):
         self.title("Ahorcado")
         self.configure(bg=BG)
         self.resizable(False, False)
-        self.geometry("800x600")
+        self.geometry("880x660")
         self._frame = None
         self.mostrar(MenuPrincipal)
 

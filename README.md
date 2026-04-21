@@ -80,10 +80,10 @@ touch users
 **3. Conectar el cliente** (en otra terminal):
 
 ```bash
-python ahorcado_client.py <host>
+python tcpClient.py <host>
 
 # Ejemplo local
-python ahorcado_client.py 127.0.0.1
+python tcpClient.py 127.0.0.1
 ```
 
 Se abrirá una ventana gráfica de 1024×768 con el menú principal.
