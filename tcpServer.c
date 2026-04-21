@@ -138,7 +138,7 @@ int addUser(char dir[]) {
 
     char buffer[100];
     while (fgets(buffer, sizeof(buffer), pointer) != NULL) {
-        buffer[strcspn(buffer, "\n")] = '\0';
+        buffer[strcspn(buffer, "\r\n")] = '\0';
 
         char* saveptr1, * saveptr2;
         char dirCopy[256];
